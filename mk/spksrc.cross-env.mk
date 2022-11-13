@@ -15,6 +15,13 @@ ENV += TOOLKIT_ROOT=$(WORK_DIR)/../../../toolkit/syno-$(ARCH)-$(TCVERSION)/work
 TOOLKIT_ROOT=$(WORK_DIR)/../../../toolkit/syno-$(ARCH)-$(TCVERSION)/work
 endif
 
+ifeq ($(strip $(GCC_DEBUG_INFO)),1)
+GCC_DEBUG_FLAGS = -O0 -g3
+ADDITIONAL_CFLAGS := $(patsubst -O%,,$(ADDITIONAL_CFLAGS)) $(GCC_DEBUG_FLAGS)
+ADDITIONAL_CPPFLAGS := $(patsubst -O%,,$(ADDITIONAL_CPPFLAGS)) $(GCC_DEBUG_FLAGS)
+ADDITIONAL_CXXFLAGS := $(patsubst -O%,,$(ADDITIONAL_CXXFLAGS)) $(GCC_DEBUG_FLAGS)
+endif
+
 ifneq ($(strip $(TC)),)
 TC_VARS_MK = $(WORK_DIR)/tc_vars.mk
 TC_VARS_CMAKE = $(WORK_DIR)/tc_vars.cmake
